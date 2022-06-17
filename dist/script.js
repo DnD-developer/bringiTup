@@ -90,35 +90,97 @@
 /*!************************!*\
   !*** ./src/js/main.js ***!
   \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-const data = [{
-  name: "Саша",
-  age: 19
-}, {
-  name: "Катя",
-  age: 21
-}, {
-  name: "Миша",
-  age: 17
-}, {
-  name: "Федя",
-  age: 23
-}, {
-  name: "Клава",
-  age: 22
-}];
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/slider */ "./src/js/modules/slider.js");
 
-function calcAvgAge(array) {
-  // Напишите код здесь
-  let arr = array.reduce((sum, current) => {
-    return sum + current.age;
-  }, 0);
-  console.log(arr);
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const sliderIndex = new _modules_slider__WEBPACK_IMPORTED_MODULE_0__["Slider"](".page", ".next", ".sidecontrol > a");
+  sliderIndex.render();
+});
+
+/***/ }),
+
+/***/ "./src/js/modules/slider.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/slider.js ***!
+  \**********************************/
+/*! exports provided: Slider */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Slider", function() { return Slider; });
+class Slider {
+  constructor(page, btns, logo) {
+    this.page = document.querySelector(page);
+    this.slides = this.page.children;
+    this.btns = document.querySelectorAll(btns);
+    this.slideIndex = 1;
+    this.logo = document.querySelectorAll(logo);
+  }
+
+  showSlides() {
+    if (this.slideIndex < 1) {
+      this.slideIndex = this.slides.length;
+    }
+
+    if (this.slideIndex > this.slides.length) {
+      this.slideIndex = 1;
+    }
+
+    try {
+      if (this.slideIndex == 3) {
+        this.hanson.style.display = "none";
+        this.hanson.classList.add("animate__animated");
+        setTimeout(() => {
+          this.hanson.style.display = "block";
+          this.hanson.classList.add("animate__slideInUp");
+        }, 3000);
+      } else {
+        this.hanson.classList.remove("animate__slideInUp");
+      }
+    } catch (error) {}
+
+    for (let slide = 0; slide < this.slides.length; slide++) {
+      this.slides[slide].classList.add("animate__animated");
+      this.slides[slide].style.display = "none";
+    }
+
+    this.slides[this.slideIndex - 1].style.display = "block";
+    this.slides[this.slideIndex - 1].classList.add("animate__fadeIn");
+  }
+
+  changeSlides(n) {
+    this.showSlides(this.slideIndex += n);
+  }
+
+  render() {
+    try {
+      this.hanson = document.querySelector(".hanson");
+    } catch (error) {}
+
+    this.btns.forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.preventDefault();
+        this.changeSlides(1);
+      });
+    });
+    this.logo.forEach(item => {
+      item.addEventListener("click", e => {
+        e.preventDefault();
+        this.slideIndex = 1;
+        this.changeSlides(0);
+      });
+    });
+  }
+
 }
-
-calcAvgAge(data);
 
 /***/ })
 
