@@ -96,13 +96,78 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/slider */ "./src/js/modules/slider.js");
+/* harmony import */ var _modules_playerVideo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/playerVideo */ "./src/js/modules/playerVideo.js");
+
 
 
 
 document.addEventListener("DOMContentLoaded", () => {
   const sliderIndex = new _modules_slider__WEBPACK_IMPORTED_MODULE_0__["Slider"](".page", ".next", ".sidecontrol > a");
   sliderIndex.render();
+  const firstPlayerIndex = new _modules_playerVideo__WEBPACK_IMPORTED_MODULE_1__["PlayerVideo"](".play", ".overlay");
+  firstPlayerIndex.init();
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/playerVideo.js":
+/*!***************************************!*\
+  !*** ./src/js/modules/playerVideo.js ***!
+  \***************************************/
+/*! exports provided: PlayerVideo */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlayerVideo", function() { return PlayerVideo; });
+class PlayerVideo {
+  constructor(triggers, modal) {
+    this.triggers = document.querySelectorAll(triggers);
+    this.modal = document.querySelector(modal);
+    this.close = this.modal.querySelector(".close");
+  }
+
+  bindTriggers() {
+    this.triggers.forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.preventDefault();
+
+        if (document.querySelector("iframe#frame")) {
+          this.modal.style.display = "flex";
+        } else {
+          this.createPlayer(btn.dataset.url);
+        }
+      });
+    });
+  }
+
+  bindClose() {
+    this.close.addEventListener("click", e => {
+      e.preventDefault();
+      this.video.stopVideo();
+      this.modal.style.display = "none";
+    });
+  }
+
+  createPlayer(url) {
+    this.video = new YT.Player("frame", {
+      height: "100%",
+      width: "100%",
+      videoId: url
+    });
+    this.modal.style.display = "flex";
+  }
+
+  init() {
+    let tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    let firstScriptTag = document.getElementsByTagName("script")[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    this.bindTriggers();
+    this.bindClose();
+  }
+
+}
 
 /***/ }),
 
