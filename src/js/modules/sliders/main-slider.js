@@ -1,4 +1,4 @@
-import { Slider } from './slider'
+import { Slider } from "./slider"
 
 export class MainSlider extends Slider {
     constructor(wrapper) {
@@ -7,7 +7,7 @@ export class MainSlider extends Slider {
 
     logoHome() {
         this.logo.forEach((item) => {
-            item.addEventListener('click', (e) => {
+            item.addEventListener("click", (e) => {
                 e.preventDefault()
                 this.slideIndex = 1
                 this.changeSlides(0)
@@ -26,23 +26,22 @@ export class MainSlider extends Slider {
 
         if (this.bannerBlock) {
             if (this.bannerSlide.includes(this.slideIndex)) {
-                this.bannerBlock.style.display = 'none'
-                this.bannerBlock.classList.add('animate__animated')
+                this.bannerBlock.style.display = "none"
+                this.bannerBlock.classList.add("animate__animated")
                 setTimeout(() => {
-                    this.bannerBlock.style.display = 'block'
-                    this.bannerBlock.classList.add('animate__slideInUp')
+                    this.bannerBlock.style.display = "block"
+                    this.bannerBlock.classList.add("animate__slideInUp")
                 }, 3000)
             } else {
-                this.bannerBlock.classList.remove('animate__slideInUp')
+                this.bannerBlock.classList.remove("animate__slideInUp")
             }
         }
 
         for (let slide = 0; slide < this.slides.length; slide++) {
-            this.slides[slide].classList.add('animate__animated')
-            this.slides[slide].style.display = 'none'
+            this.slides[slide].style.display = "none"
         }
 
-        this.slides[this.slideIndex - 1].style.display = 'block'
+        this.slides[this.slideIndex - 1].style.display = "block"
         this.slides[this.slideIndex - 1].classList.add(this.animated)
     }
 
@@ -59,7 +58,7 @@ export class MainSlider extends Slider {
         this.changeSlides(0)
 
         this.btns.forEach((btn) => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener("click", (e) => {
                 e.preventDefault()
                 this.changeSlides(1)
             })
