@@ -3,6 +3,7 @@
 import { MainSlider } from "./modules/sliders/main-slider"
 import { MiniSlider } from "./modules/sliders/mini.slider"
 import { PlayerVideo } from "./modules/playerVideo"
+import { Differnce } from "./modules/difference"
 
 document.addEventListener("DOMContentLoaded", () => {
     const sliderIndex = new MainSlider({
@@ -46,4 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const firstPlayerIndex = new PlayerVideo(".play", ".overlay")
     firstPlayerIndex.init()
+
+    new Differnce(".officerold", ".officernew", ".officer__card-item", ".plus__content").init()
 })

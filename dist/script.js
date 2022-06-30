@@ -1241,6 +1241,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_sliders_main_slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/sliders/main-slider */ "./src/js/modules/sliders/main-slider.js");
 /* harmony import */ var _modules_sliders_mini_slider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/sliders/mini.slider */ "./src/js/modules/sliders/mini.slider.js");
 /* harmony import */ var _modules_playerVideo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/playerVideo */ "./src/js/modules/playerVideo.js");
+/* harmony import */ var _modules_difference__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/difference */ "./src/js/modules/difference.js");
+
 
 
 
@@ -1284,7 +1286,80 @@ document.addEventListener("DOMContentLoaded", () => {
   sliderFeed.render();
   const firstPlayerIndex = new _modules_playerVideo__WEBPACK_IMPORTED_MODULE_2__["PlayerVideo"](".play", ".overlay");
   firstPlayerIndex.init();
+  new _modules_difference__WEBPACK_IMPORTED_MODULE_3__["Differnce"](".officerold", ".officernew", ".officer__card-item", ".plus__content").init();
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/difference.js":
+/*!**************************************!*\
+  !*** ./src/js/modules/difference.js ***!
+  \**************************************/
+/*! exports provided: Differnce */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Differnce", function() { return Differnce; });
+class Differnce {
+  constructor(officerOld, officerNew, items, plus) {
+    this.officerOld = document.querySelector(officerOld);
+    this.officerNew = document.querySelector(officerNew);
+    this.itemsOld = this.officerOld.querySelectorAll(items);
+    this.itemsNew = this.officerNew.querySelectorAll(items);
+    this.plus = plus;
+    this.currentOld = 0;
+    this.currentNew = 0;
+  }
+
+  hideItems(elements) {
+    elements.forEach((el, i, elements) => {
+      if (i != elements.length - 1) {
+        el.classList.add("animate__animated");
+        el.style.cssText = `
+                    height: 0;
+                    overflow: hidden;
+                    visibility: hidden;
+                    margin:0;
+                `;
+      }
+    });
+  }
+
+  bindTriggers(container, items, current) {
+    container.querySelector(this.plus).addEventListener("click", () => {
+      if (current == items.length - 2) {
+        items[items.length - 1].classList.add("animate__animated");
+        items[items.length - 1].style.setProperty("--animate-duration", ".3s");
+        items[items.length - 1].classList.add("animate__fadeOut");
+        setTimeout(() => {
+          items[items.length - 1].remove();
+        }, 400);
+      }
+
+      items[current].style.cssText = `
+                    height: 83px;
+                    overflow: auto;
+                    visibility: visible;
+                     margin-top: 17px;
+                `;
+      items[current].classList.add("animate__fadeIn");
+      current += 1;
+    });
+  }
+
+  init() {
+    this.hideItems(this.itemsOld);
+    this.hideItems(this.itemsNew);
+    console.log(this.officerOld);
+    console.log(this.itemsOld);
+    console.log(this.currentOld);
+    console.log(this.plus);
+    this.bindTriggers(this.officerOld, this.itemsOld, this.currentOld);
+    this.bindTriggers(this.officerNew, this.itemsNew, this.currentNew);
+  }
+
+}
 
 /***/ }),
 

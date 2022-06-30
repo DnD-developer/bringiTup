@@ -577,6 +577,7 @@ a:active {
     border-radius: 8px;
     margin-top: 17px;
     display: flex;
+    transition: all 0.3s;
 }
 .difference__info-cards .officer__card-item .card__counter {
     display: flex;
