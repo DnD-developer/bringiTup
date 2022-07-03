@@ -4,6 +4,7 @@ import { MainSlider } from "./modules/sliders/main-slider"
 import { MiniSlider } from "./modules/sliders/mini.slider"
 import { PlayerVideo } from "./modules/playerVideo"
 import { Differnce } from "./modules/difference"
+import { Requestion } from "./modules/request"
 
 document.addEventListener("DOMContentLoaded", () => {
     const sliderIndex = new MainSlider({
@@ -49,4 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
     firstPlayerIndex.init()
 
     new Differnce(".officerold", ".officernew", ".officer__card-item", ".plus__content").init()
+
+    new Requestion("../assets/question.php", "form").init()
 })

@@ -1242,6 +1242,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_sliders_mini_slider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/sliders/mini.slider */ "./src/js/modules/sliders/mini.slider.js");
 /* harmony import */ var _modules_playerVideo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/playerVideo */ "./src/js/modules/playerVideo.js");
 /* harmony import */ var _modules_difference__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/difference */ "./src/js/modules/difference.js");
+/* harmony import */ var _modules_request__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/request */ "./src/js/modules/request.js");
+
 
 
 
@@ -1287,6 +1289,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const firstPlayerIndex = new _modules_playerVideo__WEBPACK_IMPORTED_MODULE_2__["PlayerVideo"](".play", ".overlay");
   firstPlayerIndex.init();
   new _modules_difference__WEBPACK_IMPORTED_MODULE_3__["Differnce"](".officerold", ".officernew", ".officer__card-item", ".plus__content").init();
+  new _modules_request__WEBPACK_IMPORTED_MODULE_4__["Requestion"]("../assets/question.php", "form").init();
 });
 
 /***/ }),
@@ -1351,10 +1354,6 @@ class Differnce {
   init() {
     this.hideItems(this.itemsOld);
     this.hideItems(this.itemsNew);
-    console.log(this.officerOld);
-    console.log(this.itemsOld);
-    console.log(this.currentOld);
-    console.log(this.plus);
     this.bindTriggers(this.officerOld, this.itemsOld, this.currentOld);
     this.bindTriggers(this.officerNew, this.itemsNew, this.currentNew);
   }
@@ -1418,6 +1417,159 @@ class PlayerVideo {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     this.bindTriggers();
     this.bindClose();
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/modules/request.js":
+/*!***********************************!*\
+  !*** ./src/js/modules/request.js ***!
+  \***********************************/
+/*! exports provided: Requestion */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Requestion", function() { return Requestion; });
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.string.replace */ "./node_modules/core-js/modules/es.string.replace.js");
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_0__);
+
+class Requestion {
+  constructor(url, form) {
+    this.forms = document.querySelectorAll(form);
+    this.url = url;
+    this.message = {
+      loading: "Загрузка...",
+      success: "Спасибо! Скоро мы с вами свяжемся!",
+      failure: "Что-то пошло не так..."
+    };
+  }
+
+  createStatusMessage(form) {
+    let statusMessage = document.createElement("div");
+    statusMessage.style.cssText = `
+                    margin-top: 15px;
+                    font-size: 18px;
+                    color: grey;
+                `;
+    form.parentNode.appendChild(statusMessage);
+    return statusMessage;
+  }
+
+  bindTrigger(submit, inputs) {
+    submit.addEventListener("submit", e => {
+      e.preventDefault();
+      const statusMessage = this.createStatusMessage(submit),
+            formData = new FormData(submit);
+      statusMessage.textContent = this.message.loading;
+      this.req(formData).then(res => {
+        console.log(res);
+        statusMessage.textContent = this.message.success;
+      }).catch(error => {
+        console.log(error);
+        statusMessage.textContent = this.message.failure;
+      }).finally(() => {
+        this.clearInput(inputs);
+        setTimeout(() => statusMessage.remove(), 3000);
+      });
+    });
+  }
+
+  clearInput(inputs) {
+    inputs.forEach(input => {
+      input.value = "";
+    });
+  }
+
+  checkMail() {
+    const mailInputs = document.querySelectorAll("[type = 'email']");
+    mailInputs.forEach(mail => {
+      mail.addEventListener("keypress", e => {
+        if (e.key.match(/[^a-z 0-9 @ \.]/gi)) {
+          e.preventDefault();
+        }
+      });
+    });
+  }
+
+  mask(maskMatrix, type) {
+    let setCursorPosition = (pos, elem) => {
+      elem.focus();
+
+      if (elem.setSelectionRange) {
+        elem.setSelectionRange(pos, pos);
+      } else if (elem.createTextRange) {
+        let range = elem.createTextRange();
+        range.collapse(true);
+        range.moveEnd("character", pos);
+        range.moveStart("character", pos);
+        range.select();
+      }
+    };
+
+    function createMask(event) {
+      let matrix = maskMatrix,
+          i = 0,
+          j = 0,
+          k = 0,
+          def = matrix.replace(/\D/g, ""),
+          val = this.value.replace(/\D/g, "");
+
+      if (def.length >= val.length) {
+        val = def;
+      }
+
+      this.value = matrix.replace(/./g, a => {
+        if (/[_\d\w]/.test(a) && i < val.length) {
+          i++;
+          j++;
+          k++;
+          return val[i - 1];
+        } else if (i >= val.length) {
+          j++;
+          return matrix[j - 1];
+        } else {
+          j++;
+          k++;
+          return a;
+        }
+      });
+
+      if (event.type === "blur") {
+        if (val.length <= 1) {
+          this.value = "";
+        }
+      } else {
+        setCursorPosition(k, this);
+      }
+    }
+
+    let inputs = document.querySelectorAll(`[name = ${type} ]`);
+    inputs.forEach(input => {
+      input.addEventListener("input", createMask);
+      input.addEventListener("focus", createMask);
+      input.addEventListener("blur", createMask);
+    });
+  }
+
+  async req(form) {
+    let res = await fetch(this.url, {
+      method: "POST",
+      body: form
+    });
+    return await res.text();
+  }
+
+  init() {
+    this.forms.forEach(form => {
+      const inputs = form.querySelectorAll("input");
+      this.bindTrigger(form, inputs);
+    });
+    this.checkMail();
+    this.mask("+1 (___) ___ - ____", "phone");
+    this.mask("dd.mm.gggg", "date");
   }
 
 }
