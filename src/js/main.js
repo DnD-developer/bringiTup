@@ -7,9 +7,17 @@ import { Differnce } from "./modules/difference"
 import { Requestion } from "./modules/request"
 
 document.addEventListener("DOMContentLoaded", () => {
+    const sliderModule = new MainSlider({
+        wrapper: ".moduleapp",
+        next: "._module__next",
+        prev: "._module__prev",
+        logo: ".sidecontrol > a"
+    })
+    sliderModule.render()
+
     const sliderIndex = new MainSlider({
         wrapper: ".page",
-        btns: ".next",
+        next: "._index__next",
         banner: {
             bannerBlock: ".hanson",
             bannerSlide: [3]

@@ -1,7 +1,6 @@
 export class Slider {
-    constructor({ wrapper = null, btns = null, next = null, prev = null, logo = null, activeClass = "", autoPlay = false, animated = ".animate__fadeIn", banner: { bannerBlock = null, bannerSlide = [] } = {} } = {}) {
+    constructor({ wrapper = null, next = null, prev = null, logo = null, activeClass = "", autoPlay = false, animated = ".animate__fadeIn", banner: { bannerBlock = null, bannerSlide = [] } = {} } = {}) {
         this.wrapper = document.querySelector(wrapper)
-        this.btns = document.querySelectorAll(btns)
         this.slideIndex = 1
         try {
             this.slides = this.wrapper.children
