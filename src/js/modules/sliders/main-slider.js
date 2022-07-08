@@ -51,17 +51,19 @@ export class MainSlider extends Slider {
     }
 
     render() {
-        this.init()
+        try {
+            this.init()
 
-        this.logoHome()
+            this.logoHome()
 
-        this.changeSlides(0)
+            this.changeSlides(0)
 
-        this.btns.forEach((btn) => {
-            btn.addEventListener("click", (e) => {
-                e.preventDefault()
-                this.changeSlides(1)
+            this.btns.forEach((btn) => {
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault()
+                    this.changeSlides(1)
+                })
             })
-        })
+        } catch (error) {}
     }
 }

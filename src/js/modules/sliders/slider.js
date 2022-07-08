@@ -3,7 +3,9 @@ export class Slider {
         this.wrapper = document.querySelector(wrapper)
         this.btns = document.querySelectorAll(btns)
         this.slideIndex = 1
-        this.slides = this.wrapper.children
+        try {
+            this.slides = this.wrapper.children
+        } catch (error) {}
         this.logo = document.querySelectorAll(logo)
         this.activeClass = activeClass.replace(/\./, "")
         this.autoPlay = autoPlay
@@ -15,11 +17,13 @@ export class Slider {
     }
 
     init() {
-        for (let i = 0; i < this.slides.length; i++) {
-            this.slides[i].classList.add("animate__animated")
-        }
-        if (this.activeClass) {
-            this.slides[0].classList.add(this.activeClass)
+        if (this.wrapper) {
+            for (let i = 0; i < this.slides.length; i++) {
+                this.slides[i].classList.add("animate__animated")
+            }
+            if (this.activeClass) {
+                this.slides[0].classList.add(this.activeClass)
+            }
         }
     }
 }

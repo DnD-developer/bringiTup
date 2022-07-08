@@ -74,24 +74,26 @@ export class MiniSlider extends Slider {
     }
 
     render() {
-        this.init()
-        this.addCssProprties()
-        this.bindTriggers()
+        try {
+            this.init()
+            this.addCssProprties()
+            this.bindTriggers()
 
-        if (this.autoPlay) {
-            this.autoNextSlide = setInterval(() => this.nextSlide(), 5000)
+            if (this.autoPlay) {
+                this.autoNextSlide = setInterval(() => this.nextSlide(), 5000)
 
-            this.next.forEach((n) => {
-                this.stopAutoSlider(n)
-            })
+                this.next.forEach((n) => {
+                    this.stopAutoSlider(n)
+                })
 
-            this.prev.forEach((p) => {
-                this.stopAutoSlider(p)
-            })
+                this.prev.forEach((p) => {
+                    this.stopAutoSlider(p)
+                })
 
-            for (let i = 0; i < this.slides.length; i++) {
-                this.stopAutoSlider(this.slides[i])
+                for (let i = 0; i < this.slides.length; i++) {
+                    this.stopAutoSlider(this.slides[i])
+                }
             }
-        }
+        } catch (error) {}
     }
 }
