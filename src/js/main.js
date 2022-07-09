@@ -6,6 +6,7 @@ import { PlayerVideo } from "./modules/playerVideo"
 import { Differnce } from "./modules/difference"
 import { Requestion } from "./modules/request"
 import { Accordeon } from "./modules/accordeon"
+import { Download } from "./modules/download"
 
 document.addEventListener("DOMContentLoaded", () => {
     const sliderModule = new MainSlider({
@@ -56,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sliderFeed.render()
 
     new PlayerVideo(".page .play", ".overlay").init()
+
     new PlayerVideo(".module__video-item .play", ".overlay", ".module__video-item").init()
 
     new Differnce(".officerold", ".officernew", ".officer__card-item", ".plus__content").init()
@@ -63,4 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
     new Requestion("../assets/question.php", "form").init()
 
     new Accordeon(".module__info", ".plus", ".msg").init()
+
+    new Download(".download").init()
 })
