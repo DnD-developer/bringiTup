@@ -5,6 +5,7 @@ import { MiniSlider } from "./modules/sliders/mini.slider"
 import { PlayerVideo } from "./modules/playerVideo"
 import { Differnce } from "./modules/difference"
 import { Requestion } from "./modules/request"
+import { Accordeon } from "./modules/accordeon"
 
 document.addEventListener("DOMContentLoaded", () => {
     const sliderModule = new MainSlider({
@@ -60,4 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
     new Differnce(".officerold", ".officernew", ".officer__card-item", ".plus__content").init()
 
     new Requestion("../assets/question.php", "form").init()
+
+    new Accordeon(".module__info", ".plus", ".msg").init()
 })
