@@ -5,11 +5,21 @@ import { MiniSlider } from "./modules/sliders/mini.slider"
 import { PlayerVideo } from "./modules/playerVideo"
 import { Differnce } from "./modules/difference"
 import { Requestion } from "./modules/request"
+import { Accordeon } from "./modules/accordeon"
+import { Download } from "./modules/download"
 
 document.addEventListener("DOMContentLoaded", () => {
+    const sliderModule = new MainSlider({
+        wrapper: ".moduleapp",
+        next: "._module__next",
+        prev: "._module__prev",
+        logo: ".sidecontrol > a"
+    })
+    sliderModule.render()
+
     const sliderIndex = new MainSlider({
         wrapper: ".page",
-        btns: ".next",
+        next: "._index__next",
         banner: {
             bannerBlock: ".hanson",
             bannerSlide: [3]
@@ -46,10 +56,15 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     sliderFeed.render()
 
-    const firstPlayerIndex = new PlayerVideo(".play", ".overlay")
-    firstPlayerIndex.init()
+    new PlayerVideo(".page .play", ".overlay").init()
+
+    new PlayerVideo(".module__video-item .play", ".overlay", ".module__video-item").init()
 
     new Differnce(".officerold", ".officernew", ".officer__card-item", ".plus__content").init()
 
     new Requestion("../assets/question.php", "form").init()
+
+    new Accordeon(".module__info", ".plus", ".msg").init()
+
+    new Download(".download").init()
 })

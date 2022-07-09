@@ -39,8 +39,8 @@ export class MainSlider extends Slider {
 
         for (let slide = 0; slide < this.slides.length; slide++) {
             this.slides[slide].style.display = "none"
+            this.slides[this.slideIndex - 1].classList.remove(this.animated)
         }
-
         this.slides[this.slideIndex - 1].style.display = "block"
         this.slides[this.slideIndex - 1].classList.add(this.animated)
     }
@@ -51,17 +51,26 @@ export class MainSlider extends Slider {
     }
 
     render() {
-        this.init()
+        if (this.wrapper) {
+            this.init()
 
-        this.logoHome()
+            this.logoHome()
 
-        this.changeSlides(0)
+            this.changeSlides(0)
 
-        this.btns.forEach((btn) => {
-            btn.addEventListener("click", (e) => {
-                e.preventDefault()
-                this.changeSlides(1)
+            this.next.forEach((btn) => {
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault()
+                    this.changeSlides(1)
+                })
             })
-        })
+
+            this.prev.forEach((btn) => {
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault()
+                    this.changeSlides(-1)
+                })
+            })
+        }
     }
 }
