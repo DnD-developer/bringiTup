@@ -54,8 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     sliderFeed.render()
 
-    const firstPlayerIndex = new PlayerVideo(".play", ".overlay")
-    firstPlayerIndex.init()
+    new PlayerVideo(".page .play", ".overlay").init()
+    new PlayerVideo(".module__video-item .play", ".overlay", ".module__video-item").init()
 
     new Differnce(".officerold", ".officernew", ".officer__card-item", ".plus__content").init()
 
